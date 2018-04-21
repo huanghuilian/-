@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+        content="width =device-width, initial-scale = 1.0, maximum-scale = 1.0, user-scalable = 0" />
+  <title>hhl电影院</title>
+  <link rel="stylesheet" href="https://cdn.bootcss.com/Swiper/4.2.2/css/swiper.min.css">
+  <style>
+    *{
+      padding: 0;
+      margin: 0;
+    }
+    #app>header{
+      box-sizing: border-box;
+      width: 100%;
+      height: 2rem;
+      padding: .4rem .5rem;
+      border-bottom: 1px solid #f3f3f3;
+    }
+    #app>header .header_title{
+      float: left;
+      color: #00b600;
+      font-size: 1rem;
+      font-weight: bold;
+    }
+    #app>header .header_search{
+      float: right;
+      color: #00b600;
+      font-size: .8rem;
+      font-weight: bold;
+    }
+    .page>section{
+      box-sizing: border-box;
+      width: 100%;
+      height: 11rem;
+      padding: .4rem .5rem;
+    }
+    .page>section>header {
+      width: 100%;
+      height: 1.5rem;
+    }
+    .page>section>header>.section_title{
+      float: left;
+      color: #000;
+      font-size: .8rem;
+      font-weight: 300;
+    }
+    .page>section>header>.section_more{
+      float: right;
+      color: #00b600;
+      font-size: .6rem;
+      font-weight: 300;
+    }
+    .page>section div{
+      height: 8rem;
+      width: 100%;
+    }
+    .swiper-container {
+      width: 100%;
+      height: 100%;
+    }
+    .swiper-slide {
+      text-align: center;
+      font-size: .5rem;
+      /* Center slide text vertically */
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    .swiper-slide .poster{
+      display: block;
+      width: 100%;
+      height: 78%;
+    }
+    .swiper-slide .title{
+      width: 100%;
+      height: 12%;
+      font-size: .6rem;
+      text-align: center;
+    }
+    .swiper-slide .ratings{
+      width: 100%;
+      height: 10%;
+      text-align: center;
+    }
+    footer{
+      color: #00b600;
+      text-align: center;
+      padding-bottom: .3rem;
+    }
+    a{
+      text-decoration: none;
+    }
+  </style>
+</head>
+<body>
+<div id="app">
+  <header>
+    <h1 class="header_title">hhl电影</h1>
+    <a class="header_search">搜索</a>
+  </header>
+  <div class="page">
+    <!--正在热映-->
+    <section class="movie_showing">
+      <header>
+        <h1 class="section_title">正在热映</h1>
+        <p class="section_more">更多</p>
+      </header>
+      <div>
+        <div class="swiper-container">
+          <div class="swiper-wrapper">
+          <%data.theatersData.subjects.forEach(function (item) {%>
+
+            <div class="swiper-slide">
+              <a href="<%=commonUrl%>/details?id=<%=item.id%>">
+                <img class="poster" src="<%= item.images.small%>" >
+                <p class="title"><%= item.title%></p>
+                <div class="ratings"><%= item.rating.average%></div>
+              </a>
+            </div>
+
+         <% })%>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!--将上映的电影-->
+    <section class="movie_free">
+      <header>
+        <h1 class="section_title">新片速递</h1>
+        <p class="section_more">更多</p>
+      </header>
+      <div>
+        <!--滑屏容器-->
+        <div class="swiper-container">
+          <!--滑屏区域-->
+          <div class="swiper-wrapper">
+            <!--滑动的每一屏-->
+            <%data.comingData.subjects.forEach(function (item) { %> <!--item为每一部影视的信息-->
+                <div class="swiper-slide">
+                  <a href="<%=commonUrl%>/details?id=<%=item.id%>">
+                  <img class="poster" src="<%=item.images.small%>" >
+                  <p class="title"><%=item.title%></p>
+                  <div class="ratings"><%=item.rating.average%></div>
+                  </a>
+                </div>
+
+            <%})%>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!--top250-->
+    <section class="movie_latest">
+      <header>
+        <h1 class="section_title">top250</h1>
+        <p class="section_more">更多</p>
+      </header>
+      <div>
+        <div class="swiper-container">
+          <div class="swiper-wrapper">
+            <%data.top250Data.subjects.forEach(function (item) {%>
+
+              <div class="swiper-slide">
+                <a href="<%=commonUrl%>/details?id=<%=item.id%>">
+                <img class="poster" src="<%=item.images.small%>" >
+                <p class="title"><%=item.title%></p>
+                <div class="ratings"><%=item.rating.average%></div>
+                </a>
+              </div>
+
+           <% })%>
+
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+  <footer>
+    更多精彩尽在hhl电影
+  </footer>
+</div>
+<script type="text/javascript" src="/js/rem.js"></script>
+<script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
+<script type="text/javascript" src="https://cdn.bootcss.com/Swiper/4.2.2/js/swiper.min.js"></script>
+<script type="text/javascript">
+
+  //swiper
+  var swiper = new Swiper('.swiper-container', {
+    slidesPerView: 3.5,   //首页显示swiper-slide数量
+    spaceBetween: 10,     //swiper-slide间隔距离
+    centeredSlides: false   //是否居中显示
+  })
+
+
+
+
+
+</script>
+</body>
+</html>
